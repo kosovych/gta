@@ -533,26 +533,89 @@ a {
     overflow: hidden;
     z-index: 100;
 
+    mask-repeat: no-repeat;
+    mask-size: var(--mask-size-start);
+    mask-position: var(--mask-position-start);
 }
 
 .poster.active {
     mask-image: url("./img/images/mask.svg");
     mask-repeat: no-repeat;
-    mask-size: 4840px;
-    mask-position: 1000px 500px;
-    animation: 4s linear 0s infinite alternate maskAnim;
+    mask-size: var(--mask-size-start);
+    mask-position: var(--mask-position-start);
+    animation: 1s ease-in-out 0s forwards maskAnim;
+    opacity: 1;
 }
 
+.poster.active .poster__img {
+    animation: 0.8s ease-in-out 0s forwards activeImgAnim;
+    transform-origin: center center;
+}
 
-@keyframes maskAnim {
+.poster.reverse .poster__img {
+    animation: 0.8s ease-in-out 0s forwards activeImgAnimReverse;
+    transform-origin: center center;
+}
+
+@keyframes activeImgAnim {
     from {
-        mask-size: 4840px;
-        mask-position: 1000px 1000px;
+        transform: translate(-50%, -26%) scale(1);
+    }
+    to {
+        transform: translate(-50%, -26%) scale(0.8);
+    }
+}
+
+@keyframes activeImgAnimReverse {
+    from {
+        transform: translate(-50%, -26%) scale(0.8);
+    }
+    to {
+        transform: translate(-50%, -26%) scale(1);
+    }
+}
+
+.poster.reverse {
+    mask-image: url("./img/images/mask.svg");
+    mask-repeat: no-repeat;
+    mask-size: var(--mask-size-end);
+    mask-position: var(--mask-position-end);
+    animation: 1s ease-in-out 0s forwards maskAnimReverse;
+    opacity: 0;
+}
+@keyframes maskAnim {
+    0% {
+        mask-size: var(--mask-size-start);
+        mask-position: var(--mask-position-start);
     }
 
-    to {
-        mask-size: 484px;
-        mask-position: 117px 321px;
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        mask-size: var(--mask-size-end);
+        mask-position: var(--mask-position-end);
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+@keyframes maskAnimReverse {
+    0% {
+        mask-size: var(--mask-size-end);
+        mask-position: var(--mask-position-end);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        mask-size: var(--mask-size-start);
+        mask-position: var(--mask-position-start);
     }
 }
 
@@ -574,8 +637,13 @@ a {
     height: 96px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
     background-color: rgba(0, 0, 0, .4);
+    transition: transform 0.1s linear;
+}
+
+.poster__btn:hover {
+    transform: translate(-50%, -50%) scale(1.2);
 }
 
 .poster__btn img {
